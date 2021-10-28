@@ -2,22 +2,27 @@
   "name": "@digibear/porfolio",
   "version": "0.1.0",
   "description": "Digibear.io website",
-  "main": "index.js",
   "repository": "https://github.com/lcanady/portfolio.git",
   "author": "Lemuel L. Canady, Jr",
   "license": "MIT",
+  "homepage": ".",
   "scripts": {
+    "build": "yarn parcel build src/index.html",
     "start": "yarn parcel src/index.html"
   },
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
+    "@parcel/transformer-html": "^2.0.0",
     "framer-motion": "^5.0.0",
+    "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
     "react-router-dom": "^5.3.0"
   },
   "devDependencies": {
+    "eslint-plugin-react": "^7.26.1",
     "parcel": "^2.0.0"
   }
 }
