@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Layout } from "../components/Layout.js";
 import logo from "../assets/logo-large.png";
 import dribble from "../assets/dribble.png";
 import github from "../assets/github.png";
 import linkedin from "../assets/linkedin.png";
 import styled from "@emotion/styled";
+import { MyContext } from "../components/ContextProvider.js";
 
 const Container = styled.div`
   margin-left: 120px;
@@ -105,37 +106,35 @@ const Icons = styled.div`
 `;
 
 export default function Home() {
+  const { setColor } = useContext(MyContext);
+
+  useEffect(() => setColor(""), []);
+
   return (
-    <Layout>
-      <Container>
-        <Logo src={logo} />
-        <Divider />
-        <IntroContainer>
-          <Intro>
-            Hello, <br />
-            My name is
-            <span>Lem Canady</span>.<br />I am an
-            <span>Interactive Designer</span>, <span>Illustrator</span>, and
-            <span>Web Developer</span> <br />
-            living in the beautiful <span>PNW</span>.
-          </Intro>
-          <Icons>
-            <a
-              href="https://github.com/lcanady"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={github} />
-            </a>
-            <a href="https://www.linkedin.com/in/lcanady/" target="_blank">
-              <img src={linkedin} />
-            </a>
-            <a href="https://dribbble.com/lcanady" target="_blank">
-              <img src={dribble} />
-            </a>
-          </Icons>
-        </IntroContainer>
-      </Container>
-    </Layout>
+    <Container>
+      <Logo src={logo} />
+      <Divider />
+      <IntroContainer>
+        <Intro>
+          Hello, <br />
+          My name is
+          <span>Lem Canady</span>.<br />I am an
+          <span>Interactive Designer</span>, <span>Illustrator</span>, and
+          <span>Web Developer</span> <br />
+          living in the beautiful <span>PNW</span>.
+        </Intro>
+        <Icons>
+          <a href="https://github.com/lcanady" target="_blank" rel="noreferrer">
+            <img src={github} />
+          </a>
+          <a href="https://www.linkedin.com/in/lcanady/" target="_blank">
+            <img src={linkedin} />
+          </a>
+          <a href="https://dribbble.com/lcanady" target="_blank">
+            <img src={dribble} />
+          </a>
+        </Icons>
+      </IntroContainer>
+    </Container>
   );
 }

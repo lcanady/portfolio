@@ -1,12 +1,14 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import circ from "../assets/circ.png";
 import menu from "../assets/mobilemenu.png";
 import close from "../assets/mobileclose.png";
-import social from "../assets/banner.png";
+
 import { NavLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { motion, useAnimation } from "framer-motion";
+import { MyContext } from "./ContextProvider";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -40,7 +42,6 @@ const A = styled(NavLink)`
 `;
 
 const Container = styled.div`
-  max-width: 1220px;
   width: 100%;
 `;
 
@@ -87,12 +88,13 @@ const NavInner = styled.div`
   }
 `;
 
-const MobileMenu = styled.div`
-  height: 100vh;
-  width: 100vw;
+const MobileMenu = styled(motion.div)`
   z-index: 500;
-  position: absolute;
-  display: ${({ visible }) => (visible ? "flex" : "none")};
+  position: fixed;
+  top: 0;
+  height: 0;
+  width: 100%;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -108,8 +110,40 @@ const MobileMenu = styled.div`
   }
 `;
 
-export function Layout({ children, color }) {
+const menuVariants = {
+  visible: {
+    top: 0,
+    width: "100%",
+    height: "100vh",
+    display: "flex",
+    transition: {
+      when: "beforeChildren",
+    },
+  },
+  hidden: {
+    height: 0,
+    transition: {
+      when: "afterChildren",
+    },
+  },
+};
+
+const menuItemVariants = {
+  visible: {
+    display: "block",
+  },
+
+  hidden: {
+    display: "none",
+  },
+};
+
+export function Layout({ children }) {
   const [mobileVisible, setMobileVisible] = useState(false);
+  const controls = useAnimation();
+  const ulControls = useAnimation();
+
+  const { color } = useContext(MyContext);
 
   return (
     <Wrapper color={color}>
@@ -157,14 +191,32 @@ export function Layout({ children, color }) {
             </li>
           </ul>
           {mobileVisible ? (
-            <img src={close} onClick={() => setMobileVisible(false)} />
+            <img
+              src={close}
+              onClick={async () => {
+                setMobileVisible(false);
+                await ulControls.start("hidden");
+                await controls.start("hidden");
+              }}
+            />
           ) : (
-            <img src={menu} onClick={() => setMobileVisible(true)} />
+            <img
+              src={menu}
+              onClick={() => {
+                controls.start("visible");
+                ulControls.start("visible");
+                setMobileVisible(true);
+              }}
+            />
           )}
         </NavInner>
       </NavContainer>
-      <MobileMenu visible={mobileVisible}>
-        <ul>
+      <MobileMenu initial="hidden" animate={controls} variants={menuVariants}>
+        <motion.ul
+          initial="hidden"
+          animate={ulControls}
+          variants={menuItemVariants}
+        >
           <li>
             <A
               exact
@@ -172,7 +224,11 @@ export function Layout({ children, color }) {
               activeStyle={{
                 color: "white",
               }}
-              onClick={() => setMobileVisible(false)}
+              onClick={async () => {
+                setMobileVisible(false);
+                await ulControls.start("hidden");
+                await controls.start("hidden");
+              }}
             >
               HOME
             </A>
@@ -184,7 +240,11 @@ export function Layout({ children, color }) {
               activeStyle={{
                 color: "white",
               }}
-              onClick={() => setMobileVisible(false)}
+              onClick={async () => {
+                setMobileVisible(false);
+                await ulControls.start("hidden");
+                await controls.start("hidden");
+              }}
             >
               WORK
             </A>
@@ -196,12 +256,16 @@ export function Layout({ children, color }) {
               activeStyle={{
                 color: "white",
               }}
-              onClick={() => setMobileVisible(false)}
+              onClick={async () => {
+                setMobileVisible(false);
+                await ulControls.start("hidden");
+                await controls.start("hidden");
+              }}
             >
               ABOUT
             </A>
           </li>
-        </ul>
+        </motion.ul>
       </MobileMenu>
       <Container>{children}</Container>
     </Wrapper>
@@ -209,6 +273,5 @@ export function Layout({ children, color }) {
 }
 
 Layout.prototype = {
-  color: PropTypes.string,
   children: PropTypes.element.isRequired,
 };
