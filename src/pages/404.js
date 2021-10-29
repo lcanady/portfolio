@@ -3,8 +3,8 @@ import React, { useContext, useEffect } from "react";
 import { MyContext } from "../components/ContextProvider";
 
 const Container = styled.div`
-  height: 100vh;
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

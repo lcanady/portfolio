@@ -4,16 +4,16 @@ import PropTypes from "prop-types";
 import circ from "../assets/circ.png";
 import menu from "../assets/mobilemenu.png";
 import close from "../assets/mobileclose.png";
-
+import useWindowDimensions from "../hooks/useWindowDimensions";
 import { NavLink } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { motion, useAnimation } from "framer-motion";
 import { MyContext } from "./ContextProvider";
 
 const Wrapper = styled.div`
-  width: 100%;
   height: 100vh;
   display: flex;
+
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -35,14 +35,12 @@ const A = styled(NavLink)`
   &.selected {
     color: rgba(255, 255, 255, 1);
   }
-
-  @media screen and (max-width: 1024px) {
-    font-size: 2rem;
-  }
 `;
 
 const Container = styled.div`
+  height: 100vh;
   width: 100%;
+  max-width: 600px;
 `;
 
 const NavContainer = styled.div`
@@ -52,7 +50,7 @@ const NavContainer = styled.div`
   top: 0;
   display: flex;
   height: 90px;
-  width: 100vw;
+  width: 100%;
   justify-content: center;
   align-items: center;
 `;
@@ -75,7 +73,7 @@ const NavInner = styled.div`
     display: none;
   }
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 900px) {
     ul {
       display: none;
     }
@@ -94,6 +92,7 @@ const MobileMenu = styled(motion.div)`
   top: 0;
   height: 0;
   width: 100%;
+  font-size: 2rem;
   display: none;
   flex-direction: column;
   align-items: center;
@@ -116,15 +115,10 @@ const menuVariants = {
     width: "100%",
     height: "100vh",
     display: "flex",
-    transition: {
-      when: "beforeChildren",
-    },
+    transition: { type: "inertia", velocity: 50 },
   },
   hidden: {
     height: 0,
-    transition: {
-      when: "afterChildren",
-    },
   },
 };
 
@@ -139,6 +133,7 @@ const menuItemVariants = {
 };
 
 export function Layout({ children }) {
+  const { height } = useWindowDimensions();
   const [mobileVisible, setMobileVisible] = useState(false);
   const controls = useAnimation();
   const ulControls = useAnimation();
@@ -146,7 +141,7 @@ export function Layout({ children }) {
   const { color } = useContext(MyContext);
 
   return (
-    <Wrapper color={color}>
+    <Wrapper color={color} height={height}>
       <Helmet>
         <meta
           property="og:image"
@@ -267,7 +262,7 @@ export function Layout({ children }) {
           </li>
         </motion.ul>
       </MobileMenu>
-      <Container>{children}</Container>
+      <Container height={height}>{children}</Container>
     </Wrapper>
   );
 }

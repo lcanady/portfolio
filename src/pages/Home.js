@@ -1,49 +1,47 @@
 import React, { useContext, useEffect } from "react";
-import { Layout } from "../components/Layout.js";
 import logo from "../assets/logo-large.png";
 import dribble from "../assets/dribble.png";
 import github from "../assets/github.png";
 import linkedin from "../assets/linkedin.png";
 import styled from "@emotion/styled";
 import { MyContext } from "../components/ContextProvider.js";
+import useWindowDimensions from "../hooks/useWindowDimensions.js";
 
 const Container = styled.div`
-  margin-left: 120px;
-  width: calc(100% - 120px);
-  height: 100%;
+  max-width: 1220px;
+  height: 100vh;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
 
-  @media screen and (max-width: 1140px) {
+  @media screen and (max-width: 900px) {
+    padding-top: 90px;
     flex-direction: column;
     width: 100%;
-    margin-left: 0;
-    justify-content: center;
-    align-items: center;
+    height: 100vh;
   }
 `;
 
 const Logo = styled.img`
-  width: 280px;
-  height: 261px;
-  margin-left: 120px;
+  margin-top: -120px;
+  width: 150px;
+  height: 131px;
+  margin-right: auto;
 
-  @media screen and (max-width: 1140px) {
-    margin-left: 0;
-    width: 130px;
-    height: 111px;
+  @media screen and (max-width: 900px) {
+    margin-right: 0;
+    margin-bottom: 32px;
   }
 `;
 
 const Intro = styled.p`
   font-style: normal;
   font-weight: bold;
-  font-size: 30px;
-  line-height: 50px;
-  max-width: calc(280px * 2);
+  font-size: 24px;
+  line-height: 36px;
+  max-width: calc(180px * 2);
   width: 100%;
 
-  display: inline-block;
   align-items: center;
   color: rgba(255, 255, 255, 0.7);
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -54,30 +52,13 @@ const Intro = styled.p`
     border-bottom: 2px solid #f0ca4d;
   }
 
-  @media screen and (max-width: 1140px) {
+  @media screen and (max-width: 900px) {
+    font-size: 1.5rem;
+    line-height: 2.5rem;
     text-align: center;
-    margin-top: 32px;
-    padding-right: 32px;
-    padding-left: 32px;
-    font-size: 1.7rem;
-  }
-
-  @media screen and (max-width: 400px) {
-    font-size: 1.3rem;
-    line-height: 2.2rem;
+    padding: 0 16px;
   }
 `;
-
-const Divider = styled.div`
-  border-left: 2px white solid;
-  opacity: 0.5;
-  max-height: 70%;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  margin: 0 auto;
-  width: 3px;
-`;
-
-const IntroContainer = styled.div``;
 
 const Icons = styled.div`
   margin: 24px 0;
@@ -94,34 +75,34 @@ const Icons = styled.div`
     margin-left: 0;
   }
 
-  @media screen and (max-width: 1140px) {
-    margin-top: 64px;
-    justify-content: center;
-  }
-
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 900px) {
     padding: 0 32px;
+
     justify-content: center;
+
+    img {
+      margin: 8px;
+    }
   }
 `;
 
+const IntroContainer = styled.div``;
+
 export default function Home() {
   const { setColor } = useContext(MyContext);
+  const { height, width } = useWindowDimensions();
 
   useEffect(() => setColor(""), []);
 
   return (
-    <Container>
+    <Container height={height}>
       <Logo src={logo} />
-      <Divider />
       <IntroContainer>
         <Intro>
           Hello, <br />
-          My name is
-          <span>Lem Canady</span>.<br />I am an
+          My name is <span>Lem Canady</span>. <br />I am am
           <span>Interactive Designer</span>, <span>Illustrator</span>, and
-          <span>Web Developer</span> <br />
-          living in the beautiful <span>PNW</span>.
+          <span>Web Developer</span> living in the beautiful <span>PNW</span>.
         </Intro>
         <Icons>
           <a href="https://github.com/lcanady" target="_blank" rel="noreferrer">

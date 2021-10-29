@@ -4,7 +4,16 @@
   box-sizing: border-box;
 }
 
+html {
+  color: #46b39d;
+  height: -webkit-fill-available;
+}
+
 body {
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
   font-family: "Nunito", sans-serif;
   color: white;
+  background-color: #46b39d;
 }
